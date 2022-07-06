@@ -28,9 +28,11 @@ mongo.connect("mongodb://127.0.0.1/spikeChat", function (err, db) {
 
   // Run when client connects
   io.on("connection", (socket) => {
-    let chat = db.collection("chats");
-
+    let chat;
+    
     socket.on("joinRoom", ({ username, room }) => {
+      chat = db.collection(room);
+
       const user = userJoin(socket.id, username, room);
       socket.join(user.room);
 
